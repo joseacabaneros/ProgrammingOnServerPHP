@@ -4,6 +4,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="icon" href="img/favicon.png">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+        <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+        <script type="text/javascript" src="js/proteic.min.js"></script>
         <title>Notas PHP</title>
     </head>
     <body>
@@ -13,19 +16,123 @@
         </header>
         <div>
             <?php 
-                include 'utilConsulta.php';
-                $media_nota = 0;
-                $num_elementos = 0;
-                foreach($personas as $per)
-                    foreach($per->notas as $not)
-                        if(is_numeric($not->valor)){
-                            $media_nota = $media_nota + $not->valor;
-                            $num_elementos++;
-                        }
-                
-                echo "<p> Media de todas las notas: " . ($media_nota/$num_elementos);
-
+                include 'utilEstadisticas.php';
+            
+                $genero = estudiantesPorGenero();
+                $media_genero = mediaNotasPorGenero();
+                $por_convocatoria_1 = porConvocatoria(1);
+                $por_convocatoria_2 = porConvocatoria(2);
+                $por_convocatoria_3 = porConvocatoria(3);
+                $asignaturas = asignaturas();  
+                $fechas_nota = porFechaNacimiento();
             ?>
+            
+            <div id='gauge-nota-media'></div>
+            <div id='barchar-por-genero'></div>
+            <div id='barchar-genero-nota-media'></div>
+            <div id='barchar-por-convocatoria-apro-susp'></div>
+            <div id='linearchar-por-convocatoria-porc'></div>
+            <div id='linearchar-anyo-notamedia'></div>
+            
+            <script type="text/javascript">
+                
+                //GAUGE DE LA NOTA MEDIA DE TODOS LOS ESTUDIANTES
+                var data = [{x: <?php echo mediaNotas();?>}];
+                gauge = new proteic.Gauge(data, {
+                    label: "Nota media",
+                    selector: '#gauge-nota-media',
+                    minLevel: 0,
+                    maxLevel: 10,
+                    ticks: 10
+                });
+                gauge.draw();
+                            
+                    
+                //BARCHAR CON EL NUMERO DE ESTUDIANTES POR GENERO
+                data = [
+                    {x: 'Género', key: 'Hombres', y: <?php echo $genero[0];?>},
+                    {x: 'Género', key: 'Mujeres', y: <?php echo $genero[1];?>}
+                ];
+                var barchart = new proteic.Barchart(data, {
+                    selector: '#barchar-por-genero',
+                    yAxisLabel: 'Estudiantes'
+                });
+                barchart.draw();
+                
+                
+                //BARCHAR CON LA MEDIA DE NOTAS POR GENERO
+                data = [
+                    {x: 'Género', key: 'Hombres', y: <?php echo $media_genero[0];?>},
+                    {x: 'Género', key: 'Mujeres', y: <?php echo $media_genero[1];?>}
+                ];
+                var barchartGrouped = new proteic.Barchart(data, {
+                    selector: '#barchar-genero-nota-media',
+                    stacked: false,
+                    yAxisLabel: 'Nota Media'
+                });
+                barchartGrouped.draw();
+                
+                
+                //BARCHAR DE APROBADOS Y SUSPENSOS POR CONVOCATORIA 
+                data = [
+                    {x: '1ª', key: 'Aprobados', y: <?php echo $por_convocatoria_1[1];?>},
+                    {x: '1ª', key: 'Suspensos', y: <?php echo $por_convocatoria_1[0];?>},
+                    {x: '2ª', key: 'Aprobados', y: <?php echo $por_convocatoria_2[1];?>},
+                    {x: '2ª', key: 'Suspensos', y: <?php echo $por_convocatoria_2[0];?>},
+                    {x: '3ª', key: 'Aprobados', y: <?php echo $por_convocatoria_3[1];?>},
+                    {x: '3ª', key: 'Suspensos', y: <?php echo $por_convocatoria_3[0];?>}
+                ];
+                var barchartGrouped = new proteic.Barchart(data, {
+                    selector: '#barchar-por-convocatoria-apro-susp',
+                    stacked: false,
+                    yAxisLabel: 'Estudiantes',
+                    xAxisLabel: 'Convocatoria'
+                });
+                barchartGrouped.draw();
+                
+                
+                //LINEARCHAR PORCENTAJE DE APROBADOS RESPECTO POR CONVOCATORIA Y POR ASIGNATURA
+                var dataArea = [];
+                <?php 
+                    foreach($asignaturas as $a){
+                        echo "dataArea.push({key:\"" . $a . "\", x:1, y:" . porcentajeAprobadosporConvocatoriaAsignatura(1, $a) . "});";
+                        echo "dataArea.push({key:\"" . $a . "\", x:2, y:" . porcentajeAprobadosporConvocatoriaAsignatura(2, $a) . "});";
+                        echo "dataArea.push({key:\"" . $a . "\", x:3, y:" . porcentajeAprobadosporConvocatoriaAsignatura(3, $a) . "});";
+                    }
+                ?>
+                areaLinechart = new proteic.Linechart(dataArea, {
+                    selector: '#linearchar-por-convocatoria-porc',
+                    yAxisLabel: 'Aprobados (%)',
+                    xAxisLabel: 'Convocatoria',
+                    area: true,
+                    width: '90%',
+                    height: 400,
+                    onHover: (d) => console.log('hovering', d),
+                    onLeave: (d) => console.log('leaving', d),
+                });
+                areaLinechart.draw();
+                
+                
+                //LINEARCHAR NOTA MEDIA POR AÑO DE NACIMIENTO DE LOS ESTUDIANTES
+                var temporalData = []
+                <?php 
+                    foreach($fechas_nota as $f){
+                        echo "temporalData.push({key: \"Año nacimiento/Nota media\" , x:" . $f[0] .", y:" . $f[1] . "});";
+                    }
+                ?>
+                temporalLinechart = new proteic.Linechart(temporalData, {
+                    xAxisType: 'time',
+                    xAxisFormat: '%y',
+                    selector: '#linearchar-anyo-notamedia',
+                    width: '90%',
+                    areaOpacity: 0, // No area
+                    xAxisLabel: 'Año de Nacimiento',
+                    yAxisLabel: 'Nota Media',
+                    onHover: (d) => console.log('hovering', d),
+                    onLeave: (d) => console.log('leaving', d),
+                });
+                temporalLinechart.draw();
+            </script>
             
         </div>
         <a href="index.html">Atrás</a>
