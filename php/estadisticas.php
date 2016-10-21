@@ -4,6 +4,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="icon" href="img/favicon.png">
+        <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto">
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
         <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
         <script type="text/javascript" src="js/proteic.min.js"></script>
@@ -11,12 +13,13 @@
     </head>
     <body>
         <header>
-            <h2>Sistema de información de notas de cursos - ESTADISTICAS</h2>
+            <a href="index.html" class="button"><span>Atrás</span></a>
+            <h2>Sistema de información de notas de cursos - ESTADÍSTICAS</h2>
             <h3>PHP</h3>
         </header>
         <div>
             <?php 
-                include 'utilEstadisticas.php';
+                include 'php/utilEstadisticas.php';
             
                 $genero = estudiantesPorGenero();
                 $media_genero = mediaNotasPorGenero();
@@ -27,12 +30,32 @@
                 $fechas_nota = porFechaNacimiento();
             ?>
             
-            <div id='gauge-nota-media'></div>
-            <div id='barchar-por-genero'></div>
-            <div id='barchar-genero-nota-media'></div>
-            <div id='barchar-por-convocatoria-apro-susp'></div>
-            <div id='linearchar-por-convocatoria-porc'></div>
-            <div id='linearchar-anyo-notamedia'></div>
+            <article class="white">
+                <h2>Nota Media de todas las notas</h2>
+                <div id='gauge-nota-media'></div>
+            </article>
+            <article>
+                <h2>Estadísticas por Género</h2>
+                <div id='barchar-por-genero'></div>
+                <div id='barchar-genero-nota-media'></div>
+            </article>
+            <article class="white">
+                <h2>Estadísticas por Convocatoria</h2>
+                <div id='barchar-por-convocatoria-apro-susp'></div>
+                <label>
+                    Aprobados (actual): 
+                    <input id="value_conv" type="text" disabled>
+                </label>
+                <div id='linearchar-por-convocatoria-porc'></div>
+            </article>
+            <article>
+                <h2>Estadísticas Año de nacimiento y Nota media</h2>
+                <label>
+                    Nota Media (actual): 
+                    <input id="value_anyo" type="text" disabled>
+                </label>
+                <div id='linearchar-anyo-notamedia'></div>
+            </article>
             
             <script type="text/javascript">
                 
@@ -43,11 +66,12 @@
                     selector: '#gauge-nota-media',
                     minLevel: 0,
                     maxLevel: 10,
-                    ticks: 10
+                    ticks: 10, 
+                    marginLeft:370,
+                    width: 1000
                 });
                 gauge.draw();
-                            
-                    
+                              
                 //BARCHAR CON EL NUMERO DE ESTUDIANTES POR GENERO
                 data = [
                     {x: 'Género', key: 'Hombres', y: <?php echo $genero[0];?>},
@@ -55,7 +79,9 @@
                 ];
                 var barchart = new proteic.Barchart(data, {
                     selector: '#barchar-por-genero',
-                    yAxisLabel: 'Estudiantes'
+                    yAxisLabel: 'Estudiantes',
+                    marginLeft:150,
+                    marginRight:150
                 });
                 barchart.draw();
                 
@@ -68,7 +94,9 @@
                 var barchartGrouped = new proteic.Barchart(data, {
                     selector: '#barchar-genero-nota-media',
                     stacked: false,
-                    yAxisLabel: 'Nota Media'
+                    yAxisLabel: 'Nota Media',
+                    marginLeft:150,
+                    marginRight:150
                 });
                 barchartGrouped.draw();
                 
@@ -86,7 +114,9 @@
                     selector: '#barchar-por-convocatoria-apro-susp',
                     stacked: false,
                     yAxisLabel: 'Estudiantes',
-                    xAxisLabel: 'Convocatoria'
+                    xAxisLabel: 'Convocatoria',
+                    marginLeft:150,
+                    marginRight:150
                 });
                 barchartGrouped.draw();
                 
@@ -105,10 +135,10 @@
                     yAxisLabel: 'Aprobados (%)',
                     xAxisLabel: 'Convocatoria',
                     area: true,
-                    width: '90%',
+                    width: '100%',
                     height: 400,
-                    onHover: (d) => console.log('hovering', d),
-                    onLeave: (d) => console.log('leaving', d),
+                    onHover: (d) =>document.getElementById("value_conv").value = (d.y + "%"),
+                    onLeave: (d) => document.getElementById("value_conv").value = "",
                 });
                 areaLinechart.draw();
                 
@@ -124,18 +154,17 @@
                     xAxisType: 'time',
                     xAxisFormat: '%y',
                     selector: '#linearchar-anyo-notamedia',
-                    width: '90%',
+                    width: '100%',
                     areaOpacity: 0, // No area
                     xAxisLabel: 'Año de Nacimiento',
                     yAxisLabel: 'Nota Media',
-                    onHover: (d) => console.log('hovering', d),
-                    onLeave: (d) => console.log('leaving', d),
+                    onHover: (d) => document.getElementById("value_anyo").value = d.y,
+                    onLeave: (d) => document.getElementById("value_anyo").value = "",
                 });
                 temporalLinechart.draw();
             </script>
             
         </div>
-        <a href="index.html">Atrás</a>
         <footer>
             <address>
                 Programación Orientada a Objetos - Master en Ingeniería Web.<br>

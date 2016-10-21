@@ -1,0 +1,281 @@
+body{
+    font-family: "Roboto",sans-serif;
+    background-color: #f4f5f6;
+    color: #34495e;
+    min-height: 100%;
+    margin: 0;
+}
+
+header{
+    padding-bottom: 40px;
+    border-bottom: 1px solid #dfe3e8;
+    border-top: 10px solid #34495E;
+}
+
+header.index{
+    padding: 40px 0 40px
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-weight: 300;
+    color: inherit;
+}
+
+h3{
+    margin-top: 30px;
+}
+
+header h2{
+    text-align: center;
+    font-size: 48px;
+    line-height: 52px;
+    padding-top: 10px;
+}
+
+header h3{
+    text-align: center;
+    font-size: 22px;
+    color: #8d9eb0;
+    margin-top: 10px;   
+}
+
+.button {
+    display: inline-block;
+    border-radius: 8px;
+    background-color: #34495E;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 15px;
+    padding: 5px;
+    width: 80px;
+    margin: 0;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.button span:after {
+    content: '»';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.button:hover span {
+    padding-right: 25px;
+}
+
+.button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+body > div{
+    background: #fff;
+    border-bottom: 1px solid #dfe3e8;
+    min-height: 350px;
+    margin: 0px auto;
+    text-align: center;
+}
+
+div.padding{
+    padding: 40px 5%;
+}
+
+table{
+    margin: 0px auto; 
+}
+
+div > h1{
+    padding: 20px 0;
+}
+
+ul{
+    list-style-type: none;
+    text-align: center;
+    padding-left: 0;
+    font-size: 25px;
+}
+
+ul li{
+    padding: 30px;
+}
+
+ul li a{
+    text-decoration: none;
+    font-size: 25px;
+    border-radius: 8px;
+    background-color: #34495E;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 15px;
+    margin: 0;
+    cursor: pointer;
+    margin: 10px;
+}
+
+ul li a:hover {
+    background: #8C9EB5;
+    text-decoration: underline;
+}
+
+td{
+    text-align: center;
+    font-weight: 700;
+}
+
+th{
+    font-weight: normal;
+}
+
+tr.cabecera{
+    background-color: #dfe3e8;
+}
+
+tr.cab{
+    background-color: #34495E;
+    color: #fff;
+    font-weight: 900;
+}
+
+tr.cabnotas{
+    background-color: #F3F5FA;
+}
+
+article{
+    background: #f4f5f6;
+    border-bottom: 1px solid #dfe3e8;
+}
+
+article.white{
+    background: #fff;
+}
+
+article > h2{
+    padding-top: 35px;
+    padding-bottom: 20px;
+}
+
+div#gauge-nota-media{
+    padding-top: 20px;
+}
+
+div > form{
+    padding: 20px;
+}
+
+div > form label{
+    font-size: 20px;
+    margin: 10px;
+}
+
+div  form  input[type="submit"]{
+    font-size: 15px;
+    border-radius: 8px;
+    background-color: #34495E;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 10px;
+    margin: 0;
+    cursor: pointer;
+    margin: 10px;
+}
+
+div  form  input[type="file"]{
+    font-size: 15px;
+    border-radius: 8px;
+    background-color: #8C9EB5;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 10px;
+    margin: 0;
+    cursor: pointer;
+    margin: 10px;
+}
+
+div  form  input[type="text"]{
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 8px;
+    background-color: #F7F7FF;
+    border: none;
+    color: #34495e;
+    text-align: center;
+    padding: 5px;
+    margin: 0;
+    cursor: pointer;
+    margin: 10px;
+}
+
+div  form  input[type="submit"]:hover{
+    background: #8C9EB5;
+}
+
+p.info{
+    background-color: #BDFFCE;
+    font-size: 18px;
+    border: 3px solid #A1D9B0;
+}
+
+p.error{
+    background-color: #FFB2BD;
+    font-size: 18px;
+    border: 3px solid #D998A1;
+}
+
+article > label input{
+    font-weight: 800;
+    font-size: 18px;
+    border-radius: 8px;
+    background-color: #D2D2D9;
+    border: none;
+    color: #34495e;
+    text-align: center;
+    padding: 5px;
+    margin: 0;
+    margin: 10px;
+}
+
+article > label{
+    font-weight: 600;
+    font-size: 18px;
+}
+
+footer{
+    border-top: 8px solid #dfe3e8;
+    padding: 10px 10px;
+    background-color: #34495E;
+    color: #fff;
+}
+
+footer > address > a{
+    color: #8d9eb0;
+}
+
+footer > address > a:hover{
+    color: #fff;
+}
+
+footer > div{
+    margin-top: 15px;
+    text-align: center;
+}
+
+footer > div > p{
+    display: inline;
+}

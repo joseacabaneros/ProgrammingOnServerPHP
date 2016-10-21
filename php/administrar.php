@@ -4,32 +4,35 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="icon" href="img/favicon.png">
+        <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto">
         <title>Notas PHP</title>
     </head>
     <body>
         <header>
+            <a href="index.html" class="button"><span>Atrás</span></a>
             <h2>Sistema de información de notas de cursos - ADMINISTRAR</h2>
             <h3>PHP</h3>
         </header>
-        <div>
+        <div class="padding">
             <!--Formulario de subida de ficheros-->
             <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" enctype="multipart/form-data">
                 <label>
-                    Seleccianar el archivo JSON con las notas:
+                    Seleccionar el archivo JSON con las notas:
                     <input type="file" name="fichero">
-                </label>
+                </label><br/>
                 <input type="submit" value="Subir JSON" name="subir">
             </form>
             <!--Formulario reset de ficheros-->
             <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" enctype="multipart/form-data">
-                <lable>
-                    Eliminar todos los archivos JSON con las notas:
-                    <input type="submit" value="RESET" name="reset">
-                </lable>
+                <label>
+                    Eliminar todos los archivos JSON con las notas
+                </label><br/>
+                <input type="submit" value="RESET" name="reset">
             </form>
             <?php 
                 if(($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST["subir"]))): 
-                    include 'upload.php'; 
+                    include 'php/upload.php'; 
                 elseif(($_SERVER['REQUEST_METHOD'] == 'POST') && (isset($_POST["reset"]))): 
                     $files = glob('tmp/*'); 
                     foreach($files as $file){
@@ -37,12 +40,11 @@
                             unlink($file); //Borrar archivo
                         }
                     }
-                    echo "Se han eliminado todos los archivos JSON";
+                    echo "<p class=\"info\">Se han eliminado todos los archivos JSON</p>";
                 elseif(!($_SERVER['REQUEST_METHOD'] == 'GET')):
-                    die("Sólo se admiten peticiones GET y POST.");
+                    die("<p class=\"error\">Sólo se admiten peticiones GET y POST</p>");
                 endif; ?>
         </div>
-        <a href="index.html">Atrás</a>
         <footer>
             <address>
                 Programación Orientada a Objetos - Master en Ingeniería Web.<br>

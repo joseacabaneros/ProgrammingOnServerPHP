@@ -4,18 +4,21 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="icon" href="img/favicon.png">
+        <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto">
+        <script src="js/jquery-3.1.1.min.js"></script>
         <title>Notas PHP</title>
     </head>
     <body>
         <header>
+            <a href="index.html" class="button"><span>Atrás</span></a>
             <h2>Sistema de información de notas de cursos - CONSULTAR NOTAS</h2>
             <h3>PHP</h3>
         </header>
-        <a href="index.html">Atrás</a>
-        <div>
+        <div class="padding">
             <?php
-                //Con el propio include ya se cruzan los datos de los estuantes con las notas automaticamente
-                include 'utilConsulta.php'; ?>
+                //Con el propio include ya se cruzan los datos de los estudiantes con las notas automaticamente
+                include 'php/utilConsulta.php'; ?>
             <!--Formulario-->
             <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" enctype="multipart/form-data">
                 <label>
@@ -30,7 +33,7 @@
                     Asignatura: 
                     <input type="text" name="asignatura" placeholder="C1">
                 </label>
-                <input type="submit" value="Buscar" name="buscar">
+                <input type="submit" value="Buscar" name="buscar" class="button">
             </form>
             <?php 
                 if($_SERVER['REQUEST_METHOD'] == 'POST' && (isset($_POST["buscar"]))):

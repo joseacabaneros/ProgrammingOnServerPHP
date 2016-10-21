@@ -15,12 +15,7 @@
         }
         
         function __toString(){
-            $ret = $this->id . " --> " .$this->nombre . " " . $this->apellidos . " (" . $this->genero . ") - " . $this->nacimiento . "<br/>";
-            
-            foreach($this->notas as $nota)
-                $ret = $ret . " /// " . $nota->__toString();
-            
-            return $ret;
+            return "<tr></tr><tr><td>" . $this->id . "</td><td>" . $this->nombre . "</td><td>" . $this->apellidos . "</td><td>" . $this->genero . "</td><td>" . $this->nacimiento . "</td></tr>";
         }
     }
 
@@ -35,7 +30,7 @@
         }
         
         function __toString(){
-            return "asignatura: " . $this->id . ", curso: " . $this->curso . ", convocatoria: " . $this->convocatoria . ", nota: " . $this->valor . "<br/>"; 
+            return "<tr class=\"cabecera\"><td>-----</td><td>" . $this->id . "</td><td>" . $this->curso . "</td><td>" . $this->convocatoria . "</td><td>" . $this->valor . "</td></tr>";
         }
     }
 ?>
